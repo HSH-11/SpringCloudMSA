@@ -1,5 +1,5 @@
 server:
-  port: 0
+  port: 0 # scaling -Random 포트 사용으로 같은 서비스 추가 실행
 
 spring:
   application:
