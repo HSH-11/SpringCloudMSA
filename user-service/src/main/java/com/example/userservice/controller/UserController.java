@@ -24,7 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user-service")
+//@RequestMapping("/user-service")
+@RequestMapping("/")
 @Slf4j
 public class UserController {
     private Environment env;
@@ -40,6 +41,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    // http://localhost:8000/user-service/health-check --> http://localhost:60000/health-check
     @GetMapping("/health-check") // http://localhost:60000/health-check
     public String status() {
         return String.format("It's Working in User Service"
