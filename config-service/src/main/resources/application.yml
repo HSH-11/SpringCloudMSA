@@ -4,9 +4,11 @@ server:
 spring:
   application:
     name: config-service
+  profiles:
+    active: git
   cloud:
     config:
       server:
         git: #default
-          uri: file:///C:/Users/user/git-local-repo
+          uri: https://github.com/HSH-11/spring-cloud-config
           default-label: master
