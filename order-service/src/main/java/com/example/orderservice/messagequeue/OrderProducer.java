@@ -46,6 +46,7 @@ public class OrderProducer {
                 .total_price(orderDto.getTotalPrice())
                 .build();
 
+        // topic에 전달할 객체
         KafkaOrderDto kafkaOrderDto = new KafkaOrderDto(schema, payload);
 
         ObjectMapper mapper = new ObjectMapper();
