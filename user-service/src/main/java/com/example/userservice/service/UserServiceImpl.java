@@ -11,6 +11,8 @@ import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,13 +34,17 @@ public class UserServiceImpl implements UserService {
 
     OrderServiceClient orderServiceClient;
 
+    CircuitBreakerFactory circuitBreakerFactory;
+
     public UserServiceImpl(Environment env, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder,
-                           RestTemplate restTemplate, OrderServiceClient orderServiceClient) {
+                           RestTemplate restTemplate, OrderServiceClient orderServiceClient,
+                           CircuitBreakerFactory circuitBreakerFactory) {
         this.env = env;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.restTemplate = restTemplate;
         this.orderServiceClient = orderServiceClient;
+        this.circuitBreakerFactory = circuitBreakerFactory;
     }
 
     @Override
@@ -87,10 +93,12 @@ public class UserServiceImpl implements UserService {
 //                        new ParameterizedTypeReference<List<ResponseOrder>>() {
 //                        });
 //        List<ResponseOrder> orderList = orderListResponse.getBody();
-        
-        // Using a feignclient
-        List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
 
+        // Using a feignclient (ErrorDecoder)
+//        List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
+        CircuitBreaker circuitBreaker = circuitBreakerFactory.create("circuitbreaker");
+        List<ResponseOrder> orderList = circuitBreaker.run(() -> orderServiceClient.getOrders(userId),
+                throwable -> new ArrayList<>());
         userDto.setOrders(orderList);
 
         return userDto;
