@@ -71,6 +71,7 @@ public class OrderController {
 
 //        ResponseOrder responseOrder = mapper.map(orderDto, ResponseOrder.class);
 
+        // 디버깅용
         log.info("After added orders data");
         return ResponseEntity.status(HttpStatus.CREATED).body(responseOrder);
     }
