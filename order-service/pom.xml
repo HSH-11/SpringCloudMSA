@@ -87,6 +87,7 @@
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
         </dependency>
+
         <!-- zipkin -->
         <dependency>
             <groupId>io.micrometer</groupId>
