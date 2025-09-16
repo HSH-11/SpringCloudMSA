@@ -32,6 +32,7 @@ build/
 ### VS Code ###
 .vscode/
 
+### zipkin ###
 zipkin.jar
 zipkin.jar.asc
 zipkin.jar.md5
