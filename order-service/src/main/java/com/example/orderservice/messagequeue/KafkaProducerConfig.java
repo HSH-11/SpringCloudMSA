@@ -19,7 +19,8 @@ public class KafkaProducerConfig {
     public ProducerFactory<String, String> producerFactory() {
         Map<String, Object> properties = new HashMap<>();
 //        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "[aws_ec2_ip_address]:9092");
-        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
+        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
+                "127.18.0.101:9092"); //127.0.0.1:9092 -> 127.18.0.101:9092
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
