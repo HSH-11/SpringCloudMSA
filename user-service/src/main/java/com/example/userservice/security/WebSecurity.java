@@ -39,25 +39,29 @@ public class WebSecurity {
 
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
-        http.csrf((csrf) -> csrf.disable())
+        http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/h2-console/**").permitAll()  // 특정 경로 허용
-                        .requestMatchers("/actuator/**").permitAll()  // 특정 경로 허용
-                        .requestMatchers("/health-check/**").permitAll()  // 특정 경로 허용
+                        .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers("/health-check/**").permitAll()
                         .requestMatchers("/**").access(
                                 new WebExpressionAuthorizationManager(
-                                        "hasIpAddress('127.0.0.1') or hasIpAddress('::1') or " +
-                                                "hasIpAddress('172.29.160.1') or hasIpAddress('::1')")) // host pc ip address
-                        .anyRequest().authenticated()              // 그 외는 인증 필요
+                                        "hasIpAddress('127.0.0.1') or " +
+                                                "hasIpAddress('::1') or " +
+                                                "hasIpAddress('" + env.getProperty("gateway.ip") + "') or " +
+                                                "hasIpAddress('172.29.160.1')"
+                                )
+                        )
+                        .anyRequest().authenticated()
                 )
                 .authenticationManager(authenticationManager)
                 .addFilter(getAuthenticationFilter(authenticationManager))
-                .httpBasic(Customizer.withDefaults())  // ← Basic 인증 추가
-                .headers((headers) -> headers
-                        .frameOptions((frameOptions) -> frameOptions.sameOrigin()));
+                .httpBasic(Customizer.withDefaults())
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
 
         return http.build();
     }
+
 
     private AuthenticationFilter getAuthenticationFilter(AuthenticationManager authenticationManager) throws Exception {
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(userService, env, authenticationManager);
