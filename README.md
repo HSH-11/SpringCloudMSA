@@ -20,3 +20,25 @@
     * Section 7)
         * ch07-1: user-service (login 처리)
         * ch07-2: apigateway-service (routing 처리)
+    * Section 8)
+        * ch08-1: local git repository
+        * ch08-2: user-service 수정 + spring boot actuator
+        * ch08-3: apigateway-service 수정
+        * ch08-4: profiles
+        * ch08-5: remote git repository
+    * Section 9)
+        * ch09-1: spring cloud bus (with rabbitmq)
+    * Section 10)
+        * ch10-1: symmetric encryption
+        * ch10-2: asymmetric encryption
+    * Section 11)
+        * ch11-1: usage a resttemplate
+        * ch11-2: usage a loadbalancer
+        * ch11-3: openfeign
+        * ch11-4: apply to a logger level
+        * ch11-5: apply to a feign exception and error decoder
+    * Section 12,13)
+        * Apache Kafka
+    * Section 14)
+        * CircuitBreaker & Resilience4J
+        * micrometer + Zipkin
